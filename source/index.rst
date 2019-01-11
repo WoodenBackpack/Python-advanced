@@ -10,6 +10,10 @@ Welcome to Python-advanced's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   strings_advanced
+   collections
+   oop
+
 
 
 Indices and tables
