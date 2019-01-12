@@ -12,6 +12,7 @@ Welcome to Python-advanced's documentation!
 
    strings_advanced
    collections
+   args
    oop
 
 
