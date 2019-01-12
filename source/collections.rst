@@ -120,3 +120,26 @@ Counter
       c.subtract("a")
       print(c["a"]) # 1
 
+
+============
+Ordered dict
+============
+
+    OrderedDict remembers order that items were interted to dictionary but since Python3.6 reimplementation of dictionaries all dictionaries are ordered and provides better way to store keys than OrdedKeys, anyway only cPython implementation ensure that.
+
+    .. code-block:: python
+
+      c = collections.OrderedDict((x, y) for (x, y) in zip("abcd", range(4)))
+      print(c)
+      c["b"] = 40
+      print(c)
+      del c["b"]
+      c["b"] = 50
+      print(c)
+
+
+======================
+User[String/List/Dict]
+======================
+
+    There are also some classes defined that provides wrapers for strings, lists and dictionaries that were used as a interface with some implementation but since it is possible to subclass directrly from dict/list/string those classes were partially supplanted.
