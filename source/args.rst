@@ -98,3 +98,133 @@ Positional and keywork-only arguments
     # name = Adam; age = 50; eyes = blue; scars = no
 
 
+==============
+ArgumentParser
+==============
+
+ArgumentParser provides way to handle arguments passed to script
+
+.. code-block:: python
+
+  import argparse
+
+  parser = argparse.ArgumentParser()
+  add_argument('-q', help="Run script in quiet mode")
+  parser.add_argument('-w', help="Write output to file")
+  args = parser.parse_args()
+    
+.. code-block:: console
+
+  python3 ./script.py --help
+
+  #usage: script.py [-h] [-q Q] [-w W]
+
+  # optional arguments:
+  #   -h, --help  show this help message and exit
+  #   -q Q        Run script in quiet mode
+  #   -w W        Write output to file
+
+
+* Description and epilog
+  
+  Lets add some description to help
+
+.. code-block:: python
+
+  praser = argparse.ArgumentParser(
+      formatter_class = argparse.RawDescriptionHelpFormatter,
+      description="""
+      ====================
+      Handle script output
+      ====================
+      """, 
+      epilog="*** Use thes script carefully! ***")
+
+  parser.add_argument('-q', help="Run script in quiet mode")
+  parser.add_argument('-w', help="Write output to file")
+  args = parser.parse_args()
+   
+.. code-block:: console
+
+  python3 ./script.py --help
+
+  # usage: testPython.py [-h] [-q Q] [-w W]
+  # 
+  # ====================
+  # Handle script output
+  # ====================
+  # 
+  # optional arguments:
+  #   -h, --help  show this help message and exit
+  #   -q Q        Run script in quiet mode
+  #   -w W        Write output to file
+  # 
+  # *** Use thes script carefully! ***
+
+As you can see we've used a formatter_class, available argparse formatters are:
+  * class argparse.RawDescriptionHelpFormatter
+  * class argparse.RawTextHelpFormatter
+  * class argparse.ArgumentDefaultsHelpFormatter
+  * class argparse.MetavarTypeHelpFormatter
+
+* Handling arguments
+
+.. code-block:: python
+
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-q', 
+    dest="store_bool_value", 
+    help="Run script in quiet mode", 
+    action="store_true")
+  parser.add_argument('-m', 
+    dest="store_int", 
+    help="Max output length", 
+    action="store", 
+    type=int)
+  parser.add_argument('-lh', 
+    dest="store_const", 
+    help="Add [$USER] to every log", 
+    action="store_const", 
+    const="[$USER]")
+  parser.add_argument('-w', 
+    help="Write output to file", 
+    dest="store_true_default", 
+    action="store_true", 
+    default=False)
+  parser.add_argument('--files', 
+    nargs="+", 
+    help="Add log from another files to output", 
+    dest="store_multiple", 
+    action="store", 
+    default=[])
+  parser.add_argument('-u', 
+    dest="append", 
+    help="Users that can read logs", 
+    action="append", 
+    default=[])
+  parser.add_argument('-j', 
+    dest="append_jenkins_user", 
+    help="Allow Jenkins user to read logs", 
+    action="append_const", 
+    default=[], 
+    const="juser")
+  args = parser.parse_args()
+  print(args.store_bool_value)
+  print(args.store_int)
+  print(args.store_const)
+  print(args.store_true_default)
+  print(args.store_multiple)
+  print(args.append)
+  print(args.append_jenkins_user)
+
+.. code-block:: console
+
+  python3.6 ./testPython.py -lh -m 20 -q --files out.txt log.txt -u piotr -u user -u jack -j
+  # True
+  # 20
+  # [$USER]
+  # False
+  # ['out.txt', 'log.txt']
+  # ['piotr', 'user', 'jack']
+  # ['juser']
+
